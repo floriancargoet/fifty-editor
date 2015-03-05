@@ -29,6 +29,7 @@ function on(el, event, fn) {
 function Editor(id) {
   this.id = id;
   this.editor = document.getElementById(id);
+  this.editor.className += ' editor-root';
 }
 
 Editor.prototype.render = function() {

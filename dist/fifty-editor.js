@@ -173,18 +173,16 @@ Token.prototype.close = function (index) {
 };
 
 Token.prototype.clean = function () {
-  // TODO: fix indices
   var value = this.value;
 
   value = value.toLowerCase();
-  // remove some symbols
-  value = value.replace(/["«»\[\](){}|*+]/g, '');
 
   // replace similar symbols by a common one
   value = value.replace(/[\u2010-\u2015\u2212\uFE58\uFE63\uFF0D]/g, '-')
                .replace(/[’']/g, '’');
 
-  // trim hyphens and apostrophes
+  // trim hyphens and apostrophes (we don't split on these chars so there could be several)
+  // TODO: fix indices
   value = value.replace(/^[-’]+/, '')
                .replace(/[-’]+$/, '');
 
@@ -201,7 +199,7 @@ Token.prototype.makeWord = function (text, start, end) {
   };
 };
 
-var separatorRegex = /[\s.,;:!?\n]/;
+var separatorRegex = /[\s.,;:!?\n\/\\_|*+=()\[\]{}"…“”‘„“«»‹›<>]/;
 Token.fromString = function (string) {
   var tokens = [];
   var currentToken;

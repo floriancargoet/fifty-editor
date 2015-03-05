@@ -110,6 +110,7 @@ Editor.prototype.showDetails = function () {
 Editor.prototype.hideDetails = function () {
   this.details.style.display = 'none';
   this.textarea.style.visibility = 'visible';
+  this.textarea.focus();
 };
 
 module.exports = Editor;

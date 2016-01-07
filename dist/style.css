@@ -1,5 +1,6 @@
 .editor-root {
     position: relative;
+    background-color: white
 }
 
 .editor-root textarea,
@@ -11,7 +12,6 @@
     padding: 30px;
     margin: 10px 0 0 0;
 
-    background-color: white;
     resize: vertical;
     border: none;
     font: inherit;
@@ -26,7 +26,6 @@
     margin: 0 0 10px 0;
     padding: 0 8px;
     border-top: 1px solid #cbcbcb;
-    background-color: white;
     font-family: monospace;
     font-size: 14px;
 }

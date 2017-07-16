@@ -1,0 +1,25 @@
+.Editor {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+.Editor textarea {
+  flex: 1;
+  border: none;
+  padding: 5px 5px 5px 15px;
+  background-color: transparent;
+  resize: none;
+}
+
+.Editor button {
+  margin: 2px;
+}
+
+.editor-loader {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

@@ -134,7 +134,7 @@ class Box {
     const mode = {
       ".tag": "overwrite" // TODO: use "update" and handle conflicts
     };
-    this.safeAPI.filesUpload({ path, contents, mode });
+    await this.safeAPI.filesUpload({ path, contents, mode });
   }
 
   async demo() {

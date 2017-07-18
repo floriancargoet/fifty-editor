@@ -1,8 +1,4 @@
-const createAPIMiddleware = options => store => next => async action => {
-  if (!action.type.startsWith(options.actionNamespace || "API/")) {
-    return next(action);
-  }
-
+async function handleAPIAction(API, action, next) {
   next({
     type: action.type + "_REQUEST",
     payload: action.payload
@@ -10,7 +6,7 @@ const createAPIMiddleware = options => store => next => async action => {
 
   let response;
   try {
-    response = await options.API[action.payload.method](...action.payload.args);
+    response = await API[action.payload.method](...action.payload.args);
   }
   catch (error) {
     return next({
@@ -28,6 +24,22 @@ const createAPIMiddleware = options => store => next => async action => {
       response
     }
   });
+}
+
+const createAPIMiddleware = options => store => next => async action => {
+  const APIByNamespace = options.APIByNamespace || {};
+  let API;
+  Object.keys(APIByNamespace).every(namespace => {
+    if (action.type.startsWith(namespace)) {
+      API = APIByNamespace[namespace];
+      return false; // break loop
+    }
+    return true;
+  });
+  if (API) {
+    return handleAPIAction(API, action, next);
+  }
+  return next(action);
 };
 
 export { createAPIMiddleware };

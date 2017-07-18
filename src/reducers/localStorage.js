@@ -23,14 +23,29 @@ const defaultState = index([]);
 
 function files(state = defaultState, action) {
   switch (action.type) {
-    case `${types.LIST_FILES_RESULT}`:
+    case `${types.LIST_FILES}_REQUEST`:
       return {
         ...state,
-        ...index(action.payload.files)
+        ...index([]),
+        loading: true,
+        error: null
       };
-    case `${types.LOAD_FILE_RESULT}`: {
-      let file = state.byID[action.payload.id];
-      file = { ...file, content: action.payload.content };
+    case `${types.LIST_FILES}_SUCCESS`:
+      return {
+        ...state,
+        loading: false,
+        error: null,
+        ...index(action.payload.response)
+      };
+    case `${types.LIST_FILES}_FAILURE`:
+      return {
+        ...state,
+        loading: false,
+        ...index([]),
+        error: action.payload.error
+      };
+    case `${types.LOAD_FILE}_SUCCESS`: {
+      const file = action.payload.response;
       return {
         ...state,
         ...indexMerge(state.byID, file)

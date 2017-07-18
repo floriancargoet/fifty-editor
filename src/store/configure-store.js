@@ -9,6 +9,7 @@ import createHistory from "history/createBrowserHistory";
 import { makeRootReducer } from "../reducers";
 import { createAPIMiddleware } from "../middlewares/api";
 import { box } from "../api/Box";
+import { localStorage } from "../api/LocalStorage";
 import { loadTabData, loadFileContent } from "../navigation-thunks";
 
 const history = createHistory();
@@ -42,7 +43,10 @@ const {
 
 const loggerMiddleware = createLogger();
 const apiMiddleware = createAPIMiddleware({
-  API: box
+  APIByNamespace: {
+    "DROPBOX/": box,
+    "LS/": localStorage
+  }
 });
 
 const middlewaresEnhancer = applyMiddleware(

@@ -67,6 +67,10 @@ class FileBrowser extends PureComponent<*, Props, *> {
         <ul className="file-list-files">
           {files.IDs.map(id => {
             const file = files.byID[id];
+            let modified = false;
+            if (file.content != null) {
+              modified = (file.content !== file.newContent);
+            }
             return (
               <li key={id} className={id === selectedFile ? "active" : ""}>
                 <Link
@@ -75,7 +79,7 @@ class FileBrowser extends PureComponent<*, Props, *> {
                     payload: { tab: selectedTab, fileID: id }
                   }}
                 >
-                  {file.name}
+                  {file.name}{modified ? " *" : ""}
                 </Link>
               </li>
             );

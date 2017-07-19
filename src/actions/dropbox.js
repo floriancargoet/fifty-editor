@@ -1,4 +1,4 @@
-export const LIST_FILES = "DROPBOX/LIST_FILES";
+export const LIST_FILES = "DROPBOX_API/LIST_FILES";
 export function listFiles() {
   return {
     type: LIST_FILES,
@@ -9,7 +9,7 @@ export function listFiles() {
   };
 }
 
-export const LOAD_FILE = "DROPBOX/LOAD_FILE";
+export const LOAD_FILE = "DROPBOX_API/LOAD_FILE";
 export function loadFile(path) {
   return {
     type: LOAD_FILE,
@@ -20,7 +20,7 @@ export function loadFile(path) {
   };
 }
 
-export const SAVE_FILE = "DROPBOX/SAVE_FILE";
+export const SAVE_FILE = "DROPBOX_API/SAVE_FILE";
 export function saveFile(id, content) {
   return {
     type: SAVE_FILE,
@@ -31,7 +31,7 @@ export function saveFile(id, content) {
   };
 }
 
-export const CHECK_DROPBOX_ACCESS = "DROPBOX/CHECK_DROPBOX_ACCESS";
+export const CHECK_DROPBOX_ACCESS = "DROPBOX_API/CHECK_DROPBOX_ACCESS";
 export function checkDropboxAccess() {
   return {
     type: CHECK_DROPBOX_ACCESS,
@@ -39,6 +39,14 @@ export function checkDropboxAccess() {
       method: "checkAccess",
       args: []
     }
+  };
+}
+
+export const UPDATE_FILE = "DROPBOX/UPDATE_FILE";
+export function updateFile(id, content) {
+  return {
+    type: UPDATE_FILE,
+    payload: {id, content}
   };
 }
 

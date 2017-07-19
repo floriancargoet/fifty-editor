@@ -4,23 +4,17 @@ import React, { PureComponent } from "react";
 import "./Editor.css";
 
 type Props = {
-  initialValue: string | null,
-  onSaveClick: string => void
+  saving: boolean,
+  value: string | null,
+  onSaveClick: string => void,
+  onChange: string => void
 };
 
 export default class Editor extends PureComponent<void, Props, void> {
-  state = {
-    value: this.props.initialValue
-  };
 
-  componentWillReceiveProps(newProps) {
-    this.setState({
-      value: newProps.initialValue
-    });
-  }
 
   render() {
-    const { value } = this.state;
+    const { value } = this.props;
     if (value == null) {
       // loading
       return (
@@ -38,21 +32,15 @@ export default class Editor extends PureComponent<void, Props, void> {
             height: 200,
             boxSizing: "border-box"
           }}
-          value={this.state.value}
+          value={value}
           onChange={this.handleChange}
         />
-        <button onClick={this.handleSaveClick}>Save</button>
+        <button onClick={this.props.onSaveClick}>{this.props.saving ? "Saving..." : "Save"}</button>
       </div>
     );
   }
 
   handleChange = ev => {
-    this.setState({
-      value: ev.target.value
-    });
-  };
-
-  handleSaveClick = () => {
-    this.props.onSaveClick(this.state.value);
+    this.props.onChange(ev.target.value);
   };
 }

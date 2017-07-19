@@ -2,7 +2,7 @@
 import React, { PureComponent } from "react";
 import { connect } from "react-redux";
 
-import { saveFile } from "./actions/ui"; // meh
+import { saveFile, updateFile } from "./actions/ui"; // meh
 
 import "./App.css";
 
@@ -11,26 +11,38 @@ import FileBrowser from "./FileBrowser";
 
 type Props = {
   file: Object,
-  onFileSave: (string | null, string) => void
+  saving: boolean,
+  onFileSave: (string | null) => void,
+  onFileChange: (string | null, string) => void
 };
 
 class App extends PureComponent<void, Props, void> {
   render() {
     const { file } = this.props;
-    const fileContent = file ? file.content : "";
+    const fileContent = file ? file.newContent : "";
 
     return (
       <div className="App">
         <FileBrowser />
-        <Editor initialValue={fileContent} onSaveClick={this.handleSaveClick} />
+        <Editor
+          value={fileContent}
+          onChange={this.handleChange}
+          onSaveClick={this.handleSaveClick}
+          saving={this.props.saving}
+        />
       </div>
     );
   }
 
-  handleSaveClick = value => {
+  handleSaveClick = () => {
     const { file } = this.props;
-    this.props.onFileSave(file && file.id, value);
+    this.props.onFileSave(file && file.id);
   };
+
+  handleChange = value => {
+    const { file } = this.props;
+    this.props.onFileChange(file && file.id, value);
+  }
 }
 
 const mapStateToProps = state => {
@@ -39,15 +51,19 @@ const mapStateToProps = state => {
   if (!file) {
     file = state.localStorage.files.byID[selectedFile];
   }
-  return { file };
+  const { saving } = state.ui;
+  return {
+    file,
+    saving
+  };
 };
 
 const mapDispatchToProps = dispatch => ({
-  onFileSave(id, content) {
-    if (!id) {
-      id = prompt("filename");
-    }
-    dispatch(saveFile(id, content));
+  onFileSave(id = prompt("filename")) {
+    dispatch(saveFile(id));
+  },
+  onFileChange(id, content) {
+    dispatch(updateFile(id, content));
   }
 });
 

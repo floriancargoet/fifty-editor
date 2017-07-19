@@ -1,4 +1,4 @@
-export const LIST_FILES = "LS/LIST_FILES";
+export const LIST_FILES = "LS_API/LIST_FILES";
 export function listFiles() {
   return {
     type: LIST_FILES,
@@ -9,7 +9,7 @@ export function listFiles() {
   };
 }
 
-export const LOAD_FILE = "LS/LOAD_FILE";
+export const LOAD_FILE = "LS_API/LOAD_FILE";
 export function loadFile(path) {
   return {
     type: LOAD_FILE,
@@ -20,7 +20,7 @@ export function loadFile(path) {
   };
 }
 
-export const SAVE_FILE = "LS/SAVE_FILE";
+export const SAVE_FILE = "LS_API/SAVE_FILE";
 export function saveFile(id, content) {
   return {
     type: SAVE_FILE,
@@ -28,5 +28,13 @@ export function saveFile(id, content) {
       method: "saveFile",
       args: [id, content]
     }
+  };
+}
+
+export const UPDATE_FILE = "LS/UPDATE_FILE";
+export function updateFile(id, content) {
+  return {
+    type: UPDATE_FILE,
+    payload: {id, content}
   };
 }

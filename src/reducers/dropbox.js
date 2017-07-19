@@ -19,6 +19,11 @@ function indexMerge(oldByID, newItem) {
   return { byID, IDs };
 }
 
+function initFile(file) {
+  file.newContent = file.content;
+  return file;
+}
+
 const defaultState = index([]);
 
 function files(state = defaultState, action) {
@@ -35,7 +40,7 @@ function files(state = defaultState, action) {
         ...state,
         loading: false,
         error: null,
-        ...index(action.payload.response)
+        ...index(action.payload.response.map(initFile))
       };
     case `${types.LIST_FILES}_FAILURE`:
       return {
@@ -48,9 +53,35 @@ function files(state = defaultState, action) {
       const file = action.payload.response;
       return {
         ...state,
+        ...indexMerge(state.byID, initFile(file))
+      };
+    }
+    case `${types.SAVE_FILE}_SUCCESS`: {
+      const [id, content] = action.payload.args;
+      let file = state.byID[id];
+      file = {
+        ...file,
+        content: content,
+        newContent: content
+      };
+      return {
+        ...state,
         ...indexMerge(state.byID, file)
       };
     }
+    case types.UPDATE_FILE: {
+      const {id, content} = action.payload;
+      let file = state.byID[id];
+      file = {
+        ...file,
+        newContent: content
+      };
+      return {
+        ...state,
+        ...indexMerge(state.byID, file)
+      };
+    }
+
     default:
       return state;
   }

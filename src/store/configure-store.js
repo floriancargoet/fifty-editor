@@ -44,8 +44,8 @@ const {
 const loggerMiddleware = createLogger();
 const apiMiddleware = createAPIMiddleware({
   APIByNamespace: {
-    "DROPBOX/": box,
-    "LS/": localStorage
+    "DROPBOX_API/": box,
+    "LS_API/": localStorage
   }
 });
 
